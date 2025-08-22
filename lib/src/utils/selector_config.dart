@@ -36,6 +36,17 @@ class SelectorConfig {
   /// Use safe area for selectorType=BOTTOM_SHEET
   final bool useBottomSheetSafeArea;
 
+  final EdgeInsets? padding;
+
+  final Color? splashColor;
+  final Color? highlightColor;
+
+  final RouteSettings? bottomSheetRouteSettings;
+
+  final TextStyle? countryTitleTextStyle;
+  final TextStyle? countrySubtitleTextStyle;
+  final EdgeInsets? countryListItemTilePadding;
+
   const SelectorConfig({
     this.selectorType = PhoneInputSelectorType.DROPDOWN,
     this.showFlags = true,
@@ -45,5 +56,12 @@ class SelectorConfig {
     this.leadingPadding,
     this.trailingSpace = true,
     this.useBottomSheetSafeArea = false,
+    this.padding,
+    this.splashColor,
+    this.highlightColor,
+    this.bottomSheetRouteSettings,
+    this.countryTitleTextStyle,
+    this.countrySubtitleTextStyle,
+    this.countryListItemTilePadding,
   });
 }
