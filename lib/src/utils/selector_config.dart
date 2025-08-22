@@ -46,6 +46,8 @@ class SelectorConfig {
   final TextStyle? countryTitleTextStyle;
   final TextStyle? countrySubtitleTextStyle;
   final EdgeInsets? countryListItemTilePadding;
+  final bool showBottomSheetDragHandle;
+  final Color? bottomSheetDragHandleColor;
 
   const SelectorConfig({
     this.selectorType = PhoneInputSelectorType.DROPDOWN,
@@ -63,5 +65,7 @@ class SelectorConfig {
     this.countryTitleTextStyle,
     this.countrySubtitleTextStyle,
     this.countryListItemTilePadding,
+    this.showBottomSheetDragHandle = false,
+    this.bottomSheetDragHandleColor,
   });
 }

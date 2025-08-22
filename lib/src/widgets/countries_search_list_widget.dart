@@ -63,6 +63,20 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        if (widget.selectorConfig.showBottomSheetDragHandle) ...[
+          SizedBox(height: 8),
+          Container(
+            height: 5,
+            width: 36,
+            decoration: BoxDecoration(
+              color: widget.selectorConfig.bottomSheetDragHandleColor,
+              borderRadius: BorderRadius.circular(100),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+        ],
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: TextFormField(
