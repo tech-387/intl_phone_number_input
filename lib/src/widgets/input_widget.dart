@@ -85,47 +85,49 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   final Iterable<String>? autofillHints;
 
   final List<String>? countries;
+  final Widget? suffixWidget;
 
-  InternationalPhoneNumberInput(
-      {Key? key,
-      this.selectorConfig = const SelectorConfig(),
-      required this.onInputChanged,
-      this.onInputValidated,
-      this.onSubmit,
-      this.onFieldSubmitted,
-      this.validator,
-      this.onSaved,
-      this.fieldKey,
-      this.textFieldController,
-      this.keyboardAction,
-      this.keyboardType = TextInputType.phone,
-      this.initialValue,
-      this.hintText = 'Phone number',
-      this.errorMessage = 'Invalid phone number',
-      this.selectorButtonOnErrorPadding = 24,
-      this.spaceBetweenSelectorAndTextField = 12,
-      this.maxLength = 15,
-      this.isEnabled = true,
-      this.formatInput = true,
-      this.autoFocus = false,
-      this.autoFocusSearch = false,
-      this.autoValidateMode = AutovalidateMode.disabled,
-      this.ignoreBlank = false,
-      this.countrySelectorScrollControlled = true,
-      this.locale,
-      this.textStyle,
-      this.selectorTextStyle,
-      this.inputBorder,
-      this.inputDecoration,
-      this.searchBoxDecoration,
-      this.textAlign = TextAlign.start,
-      this.textAlignVertical = TextAlignVertical.center,
-      this.scrollPadding = const EdgeInsets.all(20.0),
-      this.focusNode,
-      this.cursorColor,
-      this.autofillHints,
-      this.countries})
-      : super(key: key);
+  InternationalPhoneNumberInput({
+    Key? key,
+    this.selectorConfig = const SelectorConfig(),
+    required this.onInputChanged,
+    this.onInputValidated,
+    this.onSubmit,
+    this.onFieldSubmitted,
+    this.validator,
+    this.onSaved,
+    this.fieldKey,
+    this.textFieldController,
+    this.keyboardAction,
+    this.keyboardType = TextInputType.phone,
+    this.initialValue,
+    this.hintText = 'Phone number',
+    this.errorMessage = 'Invalid phone number',
+    this.selectorButtonOnErrorPadding = 24,
+    this.spaceBetweenSelectorAndTextField = 12,
+    this.maxLength = 15,
+    this.isEnabled = true,
+    this.formatInput = true,
+    this.autoFocus = false,
+    this.autoFocusSearch = false,
+    this.autoValidateMode = AutovalidateMode.disabled,
+    this.ignoreBlank = false,
+    this.countrySelectorScrollControlled = true,
+    this.locale,
+    this.textStyle,
+    this.selectorTextStyle,
+    this.inputBorder,
+    this.inputDecoration,
+    this.searchBoxDecoration,
+    this.textAlign = TextAlign.start,
+    this.textAlignVertical = TextAlignVertical.center,
+    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.focusNode,
+    this.cursorColor,
+    this.autofillHints,
+    this.countries,
+    this.suffixWidget,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _InputWidgetState();
@@ -419,42 +421,71 @@ class _InputWidgetView
             SizedBox(width: widget.spaceBetweenSelectorAndTextField),
           ],
           Flexible(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: TextFormField(
-                key: widget.fieldKey ?? Key(TestHelper.TextInputKeyValue),
-                textDirection: TextDirection.ltr,
-                controller: state.controller,
-                cursorColor: widget.cursorColor,
-                focusNode: widget.focusNode,
-                enabled: widget.isEnabled,
-                autofocus: widget.autoFocus,
-                keyboardType: widget.keyboardType,
-                textInputAction: widget.keyboardAction,
-                style: widget.textStyle,
-                decoration: state.getInputDecoration(widget.inputDecoration),
-                textAlign: widget.textAlign,
-                textAlignVertical: widget.textAlignVertical,
-                onEditingComplete: widget.onSubmit,
-                onFieldSubmitted: widget.onFieldSubmitted,
-                autovalidateMode: widget.autoValidateMode,
-                autofillHints: widget.autofillHints,
-                validator: widget.validator ?? state.validator,
-                onSaved: state.onSaved,
-                scrollPadding: widget.scrollPadding,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(widget.maxLength),
-                  widget.formatInput
-                      ? AsYouTypeFormatter(
-                          isoCode: countryCode,
-                          dialCode: dialCode,
-                          onInputFormatted: (TextEditingValue value) {
-                            state.controller!.value = value;
-                          },
-                        )
-                      : FilteringTextInputFormatter.digitsOnly,
+            child: Container(
+              decoration: BoxDecoration(
+                color: widget.inputDecoration?.fillColor ??
+                    Theme.of(context).inputDecorationTheme.fillColor,
+                border: null,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: widget.inputDecoration?.contentPadding ??
+                          EdgeInsets.symmetric(vertical: 11, horizontal: 16),
+                      child: TextFormField(
+                        key: widget.fieldKey ??
+                            Key(TestHelper.TextInputKeyValue),
+                        textDirection: TextDirection.ltr,
+                        controller: state.controller,
+                        cursorColor: widget.cursorColor,
+                        focusNode: widget.focusNode,
+                        enabled: widget.isEnabled,
+                        autofocus: widget.autoFocus,
+                        keyboardType: widget.keyboardType,
+                        textInputAction: widget.keyboardAction,
+                        style: widget.textStyle,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          filled: false,
+                          hintText: widget.hintText,
+                          hintStyle: widget.inputDecoration?.hintStyle,
+                          counterText: '',
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                        textAlign: widget.textAlign,
+                        textAlignVertical: widget.textAlignVertical,
+                        onEditingComplete: widget.onSubmit,
+                        onFieldSubmitted: widget.onFieldSubmitted,
+                        autovalidateMode: widget.autoValidateMode,
+                        autofillHints: widget.autofillHints,
+                        validator: widget.validator ?? state.validator,
+                        onSaved: state.onSaved,
+                        scrollPadding: widget.scrollPadding,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(widget.maxLength),
+                          widget.formatInput
+                              ? AsYouTypeFormatter(
+                                  isoCode: countryCode,
+                                  dialCode: dialCode,
+                                  onInputFormatted: (TextEditingValue value) {
+                                    state.controller!.value = value;
+                                  },
+                                )
+                              : FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        onChanged: state.onChanged,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  if (widget.suffixWidget != null) widget.suffixWidget!
                 ],
-                onChanged: state.onChanged,
               ),
             ),
           )
