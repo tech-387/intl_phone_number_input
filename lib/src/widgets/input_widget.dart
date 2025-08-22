@@ -481,7 +481,6 @@ class _InputWidgetView
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
                   if (widget.inputDecoration?.suffix != null) ...[
                     const SizedBox(width: 8),
                     widget.inputDecoration!.suffix!,

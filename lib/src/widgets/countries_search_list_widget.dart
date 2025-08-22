@@ -15,6 +15,8 @@ class CountrySearchListWidget extends StatefulWidget {
   final bool? useEmoji;
   final SelectorConfig selectorConfig;
 
+  final Widget Function(TextEditingController controller)? suffixBuilder;
+
   CountrySearchListWidget(
     this.countries,
     this.locale, {
@@ -24,6 +26,7 @@ class CountrySearchListWidget extends StatefulWidget {
     this.showFlags,
     this.useEmoji,
     this.autoFocus = false,
+    this.suffixBuilder,
   });
 
   @override
@@ -35,9 +38,16 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
   late TextEditingController _searchController = TextEditingController();
   late List<Country> filteredCountries;
 
+  bool isSearchInputEmpty = true;
+
   @override
   void initState() {
     final String value = _searchController.text.trim();
+    _searchController.addListener(() {
+      setState(() {
+        isSearchInputEmpty = _searchController.text.isEmpty;
+      });
+    });
     filteredCountries = Utils.filterCountries(
       countries: widget.countries,
       locale: widget.locale,
@@ -78,6 +88,7 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
           ),
         ],
         Container(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: widget.searchBoxDecoration?.fillColor ??
                 Theme.of(context).inputDecorationTheme.fillColor,
@@ -119,10 +130,9 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
-              if (widget.searchBoxDecoration?.suffix != null) ...[
+              if (widget.suffixBuilder != null && !isSearchInputEmpty) ...[
                 const SizedBox(width: 8),
-                widget.searchBoxDecoration!.suffix!,
+                widget.suffixBuilder!(_searchController),
               ]
             ],
           ),
