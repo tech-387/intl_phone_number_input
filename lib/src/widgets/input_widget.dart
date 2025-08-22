@@ -420,7 +420,7 @@ class _InputWidgetView
           ],
           Flexible(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(8),
               child: TextFormField(
                 key: widget.fieldKey ?? Key(TestHelper.TextInputKeyValue),
                 textDirection: TextDirection.ltr,
