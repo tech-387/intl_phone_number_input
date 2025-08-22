@@ -85,7 +85,6 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   final Iterable<String>? autofillHints;
 
   final List<String>? countries;
-  final Widget? suffixWidget;
 
   InternationalPhoneNumberInput({
     Key? key,
@@ -126,7 +125,6 @@ class InternationalPhoneNumberInput extends StatefulWidget {
     this.cursorColor,
     this.autofillHints,
     this.countries,
-    this.suffixWidget,
   }) : super(key: key);
 
   @override
@@ -484,7 +482,10 @@ class _InputWidgetView
                     ),
                   ),
                   const SizedBox(width: 8),
-                  if (widget.suffixWidget != null) widget.suffixWidget!
+                  if (widget.inputDecoration?.suffix != null) ...[
+                    const SizedBox(width: 8),
+                    widget.inputDecoration!.suffix!,
+                  ]
                 ],
               ),
             ),

@@ -77,23 +77,54 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
             height: 5,
           ),
         ],
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            key: Key(TestHelper.CountrySearchInputKeyValue),
-            decoration: getSearchBoxDecoration(),
-            controller: _searchController,
-            autofocus: widget.autoFocus,
-            onChanged: (value) {
-              final String value = _searchController.text.trim();
-              return setState(
-                () => filteredCountries = Utils.filterCountries(
-                  countries: widget.countries,
-                  locale: widget.locale,
-                  value: value,
+        Container(
+          decoration: BoxDecoration(
+            color: widget.searchBoxDecoration?.fillColor ??
+                Theme.of(context).inputDecorationTheme.fillColor,
+            border: null,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: widget.searchBoxDecoration?.contentPadding ??
+                      EdgeInsets.symmetric(vertical: 11, horizontal: 16),
+                  child: TextFormField(
+                    key: Key(TestHelper.CountrySearchInputKeyValue),
+                    decoration: InputDecoration(
+                      isDense: true,
+                      filled: false,
+                      hintText: widget.searchBoxDecoration?.hintText,
+                      hintStyle: widget.searchBoxDecoration?.hintStyle,
+                      counterText: '',
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    controller: _searchController,
+                    autofocus: widget.autoFocus,
+                    onChanged: (value) {
+                      final String value = _searchController.text.trim();
+                      return setState(
+                        () => filteredCountries = Utils.filterCountries(
+                          countries: widget.countries,
+                          locale: widget.locale,
+                          value: value,
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              );
-            },
+              ),
+              const SizedBox(width: 8),
+              if (widget.searchBoxDecoration?.suffix != null) ...[
+                const SizedBox(width: 8),
+                widget.searchBoxDecoration!.suffix!,
+              ]
+            ],
           ),
         ),
         Flexible(
