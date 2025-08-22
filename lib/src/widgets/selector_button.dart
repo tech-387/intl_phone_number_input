@@ -153,8 +153,11 @@ class SelectorButton extends StatelessWidget {
       isScrollControlled: isScrollControlled,
       backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
+      ),
       useSafeArea: selectorConfig.useBottomSheetSafeArea,
       routeSettings: selectorConfig.bottomSheetRouteSettings,
       builder: (BuildContext context) {
@@ -170,26 +173,22 @@ class SelectorButton extends StatelessWidget {
                 builder: (BuildContext context, ScrollController controller) {
                   return Directionality(
                     textDirection: Directionality.of(inheritedContext),
-                    child: Container(
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
+                    child: Material(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8),
                         ),
                       ),
-                      child: Material(
-                        child: CountrySearchListWidget(
-                          countries,
-                          locale,
-                          searchBoxDecoration: searchBoxDecoration,
-                          scrollController: controller,
-                          showFlags: selectorConfig.showFlags,
-                          useEmoji: selectorConfig.useEmoji,
-                          autoFocus: autoFocusSearchField,
-                          selectorConfig: selectorConfig,
-                        ),
+                      child: CountrySearchListWidget(
+                        countries,
+                        locale,
+                        searchBoxDecoration: searchBoxDecoration,
+                        scrollController: controller,
+                        showFlags: selectorConfig.showFlags,
+                        useEmoji: selectorConfig.useEmoji,
+                        autoFocus: autoFocusSearchField,
+                        selectorConfig: selectorConfig,
                       ),
                     ),
                   );
