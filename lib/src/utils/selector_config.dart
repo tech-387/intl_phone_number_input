@@ -49,8 +49,7 @@ class SelectorConfig {
   final bool showBottomSheetDragHandle;
   final Color? bottomSheetDragHandleColor;
 
-  final Widget Function(TextEditingController controller)?
-      searchBoxSuffixBuilder;
+  final Widget Function(VoidCallback onClear)? searchBoxSuffixBuilder;
 
   const SelectorConfig({
     this.selectorType = PhoneInputSelectorType.DROPDOWN,

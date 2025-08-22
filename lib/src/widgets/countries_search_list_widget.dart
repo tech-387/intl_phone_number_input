@@ -40,11 +40,7 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
   @override
   void initState() {
     final String value = _searchController.text.trim();
-    _searchController.addListener(() {
-      setState(() {
-        isSearchInputEmpty = _searchController.text.isEmpty;
-      });
-    });
+    _searchController.addListener(_searchInputListener);
     filteredCountries = Utils.filterCountries(
       countries: widget.countries,
       locale: widget.locale,
@@ -53,8 +49,16 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
     super.initState();
   }
 
+  void _searchInputListener() {
+    setState(() {
+      isSearchInputEmpty = _searchController.text.isEmpty;
+      print("isSearchInputEmpty: $isSearchInputEmpty");
+    });
+  }
+
   @override
   void dispose() {
+    _searchController.removeListener(_searchInputListener);
     _searchController.dispose();
     super.dispose();
   }
@@ -85,7 +89,7 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
           ),
         ],
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: widget.searchBoxDecoration?.fillColor ??
                 Theme.of(context).inputDecorationTheme.fillColor,
@@ -130,8 +134,19 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
               if (widget.selectorConfig.searchBoxSuffixBuilder != null &&
                   !isSearchInputEmpty) ...[
                 const SizedBox(width: 8),
-                widget
-                    .selectorConfig.searchBoxSuffixBuilder!(_searchController),
+                widget.selectorConfig.searchBoxSuffixBuilder!(
+                  () {
+                    _searchController.clear();
+                    final String value = _searchController.text.trim();
+                    return setState(
+                      () => filteredCountries = Utils.filterCountries(
+                        countries: widget.countries,
+                        locale: widget.locale,
+                        value: value,
+                      ),
+                    );
+                  },
+                ),
               ]
             ],
           ),
