@@ -49,6 +49,9 @@ class SelectorConfig {
   final bool showBottomSheetDragHandle;
   final Color? bottomSheetDragHandleColor;
 
+  final Widget Function(TextEditingController controller)?
+      searchBoxSuffixBuilder;
+
   const SelectorConfig({
     this.selectorType = PhoneInputSelectorType.DROPDOWN,
     this.showFlags = true,
@@ -67,5 +70,6 @@ class SelectorConfig {
     this.countryListItemTilePadding,
     this.showBottomSheetDragHandle = false,
     this.bottomSheetDragHandleColor,
+    this.searchBoxSuffixBuilder,
   });
 }

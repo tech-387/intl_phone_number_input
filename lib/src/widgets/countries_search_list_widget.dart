@@ -15,8 +15,6 @@ class CountrySearchListWidget extends StatefulWidget {
   final bool? useEmoji;
   final SelectorConfig selectorConfig;
 
-  final Widget Function(TextEditingController controller)? suffixBuilder;
-
   CountrySearchListWidget(
     this.countries,
     this.locale, {
@@ -26,7 +24,6 @@ class CountrySearchListWidget extends StatefulWidget {
     this.showFlags,
     this.useEmoji,
     this.autoFocus = false,
-    this.suffixBuilder,
   });
 
   @override
@@ -130,9 +127,11 @@ class _CountrySearchListWidgetState extends State<CountrySearchListWidget> {
                   ),
                 ),
               ),
-              if (widget.suffixBuilder != null && !isSearchInputEmpty) ...[
+              if (widget.selectorConfig.searchBoxSuffixBuilder != null &&
+                  !isSearchInputEmpty) ...[
                 const SizedBox(width: 8),
-                widget.suffixBuilder!(_searchController),
+                widget
+                    .selectorConfig.searchBoxSuffixBuilder!(_searchController),
               ]
             ],
           ),
