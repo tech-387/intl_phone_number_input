@@ -1,4 +1,5 @@
 import 'package:dlibphonenumber/dlibphonenumber.dart' as p;
+import 'package:dlibphonenumber/exceptions/number_parse_exception.dart';
 import 'package:intl_phone_number_input/src/utils/phone_number.dart';
 
 class PhoneNumberUtil {
@@ -12,8 +13,12 @@ class PhoneNumberUtil {
     if (phoneNumber.length < 2) {
       return false;
     }
-    final number = phoneUtil.parse(phoneNumber, isoCode.toUpperCase());
-    return phoneUtil.isValidNumber(number);
+    try {
+      final number = phoneUtil.parse(phoneNumber, isoCode.toUpperCase());
+      return phoneUtil.isValidNumber(number);
+    } on NumberParseException catch (_) {
+      return false;
+    }
   }
 
   /// [normalizePhoneNumber] normalizes a string of characters representing a phone number

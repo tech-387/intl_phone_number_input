@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:intlphonenumberinputtest/theme/colors.dart';
+import 'package:intlphonenumberinputtest/theme/styles.dart';
 
 void main() => runApp(MyApp());
 
@@ -50,22 +52,44 @@ class _MyHomePageState extends State<MyHomePage> {
               onInputValidated: (bool value) {
                 print(value);
               },
-              selectorConfig: SelectorConfig(
-                selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                useBottomSheetSafeArea: true,
-              ),
               ignoreBlank: false,
               autoValidateMode: AutovalidateMode.disabled,
-              selectorTextStyle: TextStyle(color: Colors.black),
               initialValue: number,
               textFieldController: controller,
               formatInput: true,
+              spaceBetweenSelectorAndTextField: 10,
+              textStyle: CustomStyles.bodyLarge,
               keyboardType:
                   TextInputType.numberWithOptions(signed: true, decimal: true),
               inputBorder: OutlineInputBorder(),
               onSaved: (PhoneNumber number) {
                 print('On Saved: $number');
               },
+              inputDecoration: InputDecoration(
+                hintStyle: CustomStyles.bodyLarge.withColor(
+                  CustomColors.onPrimary.withValues(alpha: 0.24),
+                ),
+                hintText: "Add phone number",
+                border: InputBorder.none,
+                errorBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                filled: true,
+                fillColor: CustomColors.onBackground.withValues(alpha: 0.03),
+              ),
+              selectorTextStyle: CustomStyles.bodyLarge,
+              selectorConfig: SelectorConfig(
+                selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                useBottomSheetSafeArea: true,
+                useEmoji: false,
+                trailingSpace: false,
+                searchBoxSuffixBuilder: (controller) {
+                  return Container(
+                    color: Colors.red,
+                    width: 50,
+                    height: 50,
+                  );
+                },
+              ),
             ),
             ElevatedButton(
               onPressed: () {
