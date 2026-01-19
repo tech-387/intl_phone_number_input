@@ -34,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController controller = TextEditingController();
+  final FocusNode focusNode = FocusNode();
   String initialCountry = 'NG';
   PhoneNumber number = PhoneNumber(isoCode: 'NG');
 
@@ -52,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onInputValidated: (bool value) {
                 print(value);
               },
+              focusNode: focusNode,
               ignoreBlank: false,
               autoValidateMode: AutovalidateMode.disabled,
               initialValue: number,
@@ -106,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 formKey.currentState?.save();
+                focusNode.unfocus();
               },
               child: Text('Save'),
             ),

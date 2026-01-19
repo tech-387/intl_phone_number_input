@@ -31,7 +31,9 @@ dev_dependencies:
     sdk: flutter
   test: any
 
-  libphonenumber: ^2.0.0
+  libphonenumber:
+    git: 
+      url: https://github.com/emostar/flutter-libphonenumber.git
   intl_phone_number_input:
     path: ../
 
