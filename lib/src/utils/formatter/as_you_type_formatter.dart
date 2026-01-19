@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:intl_phone_number_input/src/utils/phone_number/phone_number_util.dart';
+import 'dart:developer' as developer;
 
 typedef OnInputFormatted<T> = void Function(T value);
 
@@ -34,10 +35,9 @@ class AsYouTypeFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    int oldValueLength = oldValue.text.length;
     int newValueLength = newValue.text.length;
 
-    if (newValueLength > 0 && newValueLength > oldValueLength) {
+    if (newValueLength > 0) {
       String newValueText = newValue.text;
       String rawText = newValueText.replaceAll(separatorChars, '');
 
@@ -112,6 +112,9 @@ class AsYouTypeFormatter extends TextInputFormatter {
     try {
       String? formattedPhoneNumber = await PhoneNumberUtil.formatAsYouType(
           phoneNumber: input, isoCode: isoCode);
+      developer.log(
+          'Original phone number =$input, formatted phone number: $formattedPhoneNumber',
+          name: 'AsYouTypeFormatter');
       return formattedPhoneNumber;
     } on Exception {
       return '';
