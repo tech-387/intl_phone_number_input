@@ -86,6 +86,8 @@ class InternationalPhoneNumberInput extends StatefulWidget {
 
   final List<String>? countries;
 
+  final Widget? customErrorWidget;
+
   InternationalPhoneNumberInput({
     Key? key,
     this.selectorConfig = const SelectorConfig(),
@@ -125,6 +127,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
     this.cursorColor,
     this.autofillHints,
     this.countries,
+    this.customErrorWidget,
   }) : super(key: key);
 
   @override
@@ -419,74 +422,84 @@ class _InputWidgetView
             SizedBox(width: widget.spaceBetweenSelectorAndTextField),
           ],
           Flexible(
-            child: Container(
-              decoration: BoxDecoration(
-                color: widget.inputDecoration?.fillColor ??
-                    Theme.of(context).inputDecorationTheme.fillColor,
-                border: null,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: widget.inputDecoration?.contentPadding ??
-                          EdgeInsets.symmetric(vertical: 11, horizontal: 16),
-                      child: TextFormField(
-                        key: widget.fieldKey ??
-                            Key(TestHelper.TextInputKeyValue),
-                        textDirection: TextDirection.ltr,
-                        controller: state.controller,
-                        cursorColor: widget.cursorColor,
-                        focusNode: widget.focusNode,
-                        enabled: widget.isEnabled,
-                        autofocus: widget.autoFocus,
-                        keyboardType: widget.keyboardType,
-                        textInputAction: widget.keyboardAction,
-                        style: widget.textStyle,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          filled: false,
-                          hintText: widget.hintText,
-                          hintStyle: widget.inputDecoration?.hintStyle,
-                          counterText: '',
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                        textAlign: widget.textAlign,
-                        textAlignVertical: widget.textAlignVertical,
-                        onEditingComplete: widget.onSubmit,
-                        onFieldSubmitted: widget.onFieldSubmitted,
-                        autovalidateMode: widget.autoValidateMode,
-                        autofillHints: widget.autofillHints,
-                        validator: widget.validator ?? state.validator,
-                        onSaved: state.onSaved,
-                        scrollPadding: widget.scrollPadding,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(widget.maxLength),
-                          widget.formatInput
-                              ? AsYouTypeFormatter(
-                                  isoCode: countryCode,
-                                  dialCode: dialCode,
-                                  onInputFormatted: (TextEditingValue value) {
-                                    state.controller!.value = value;
-                                  },
-                                )
-                              : FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        onChanged: state.onChanged,
-                      ),
-                    ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: widget.inputDecoration?.fillColor ??
+                        Theme.of(context).inputDecorationTheme.fillColor,
+                    border: null,
+                    borderRadius: BorderRadius.circular(14),
                   ),
-                  if (widget.inputDecoration?.suffix != null) ...[
-                    const SizedBox(width: 8),
-                    widget.inputDecoration!.suffix!,
-                  ]
-                ],
-              ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: widget.inputDecoration?.contentPadding ??
+                              EdgeInsets.symmetric(
+                                  vertical: 11, horizontal: 16),
+                          child: TextFormField(
+                            key: widget.fieldKey ??
+                                Key(TestHelper.TextInputKeyValue),
+                            textDirection: TextDirection.ltr,
+                            controller: state.controller,
+                            cursorColor: widget.cursorColor,
+                            focusNode: widget.focusNode,
+                            enabled: widget.isEnabled,
+                            autofocus: widget.autoFocus,
+                            keyboardType: widget.keyboardType,
+                            textInputAction: widget.keyboardAction,
+                            style: widget.textStyle,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              filled: false,
+                              hintText: widget.hintText,
+                              hintStyle: widget.inputDecoration?.hintStyle,
+                              counterText: '',
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            textAlign: widget.textAlign,
+                            textAlignVertical: widget.textAlignVertical,
+                            onEditingComplete: widget.onSubmit,
+                            onFieldSubmitted: widget.onFieldSubmitted,
+                            autovalidateMode: widget.autoValidateMode,
+                            autofillHints: widget.autofillHints,
+                            validator: widget.validator ?? state.validator,
+                            onSaved: state.onSaved,
+                            scrollPadding: widget.scrollPadding,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(
+                                  widget.maxLength),
+                              widget.formatInput
+                                  ? AsYouTypeFormatter(
+                                      isoCode: countryCode,
+                                      dialCode: dialCode,
+                                      onInputFormatted:
+                                          (TextEditingValue value) {
+                                        state.controller!.value = value;
+                                      },
+                                    )
+                                  : FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            onChanged: state.onChanged,
+                          ),
+                        ),
+                      ),
+                      if (widget.inputDecoration?.suffix != null) ...[
+                        const SizedBox(width: 8),
+                        widget.inputDecoration!.suffix!,
+                      ]
+                    ],
+                  ),
+                ),
+                if (widget.customErrorWidget != null) widget.customErrorWidget!,
+              ],
             ),
           )
         ],
